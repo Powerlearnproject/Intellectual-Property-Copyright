@@ -1,4 +1,4 @@
- import pandas as pd
+import pandas as pd
 import dash
 from dash import dcc, html, dash_table, Input, Output
 import plotly.express as px
@@ -34,32 +34,51 @@ df['Risk Score'] = df.apply(calculate_enhanced_risk, axis=1)
 app = dash.Dash(__name__)
 app.title = "Advanced Debt Recovery Dashboard"
 
+# Custom CSS styles
+styles = {
+    'kpi-box': {
+        'backgroundColor': '#f8f9fa',
+        'borderRadius': '5px',
+        'padding': '20px',
+        'textAlign': 'center',
+        'boxShadow': '0 4px 6px 0 rgba(0,0,0,0.1)',
+        'margin': '10px',
+        'flex': '1',
+        'minWidth': '200px'
+    },
+    'header': {
+        'textAlign': 'center',
+        'color': '#2c3e50',
+        'marginBottom': '30px'
+    }
+}
+
 # App Layout
 app.layout = html.Div([
-    html.H1("Advanced Debt Recovery Dashboard", style={'textAlign': 'center', 'color': '#2c3e50'}),
+    html.H1("Advanced Debt Recovery Dashboard", style=styles['header']),
     
     # KPIs with better styling
     html.Div([
         html.Div([
             html.H4("Total Amount Owed", style={'color': '#7f8c8d'}),
             html.H2(f"{df['Amount Owed (KES)'].sum():,.2f} KES", style={'color': '#e74c3c'})
-        ], className='kpi-box'),
+        ], style=styles['kpi-box']),
         
         html.Div([
             html.H4("High Risk Clients", style={'color': '#7f8c8d'}),
             html.H2(f"{(df['Risk Level'] == 'High').sum()}", style={'color': '#e74c3c'})
-        ], className='kpi-box'),
+        ], style=styles['kpi-box']),
         
         html.Div([
             html.H4("Avg Days Overdue", style={'color': '#7f8c8d'}),
             html.H2(f"{df['Days Overdue'].mean():.1f}", style={'color': '#e74c3c'})
-        ], className='kpi-box'),
+        ], style=styles['kpi-box']),
         
         html.Div([
             html.H4("Recovery Potential", style={'color': '#7f8c8d'}),
             html.H2(f"{df[df['Risk Level'] != 'High']['Amount Owed (KES)'].sum():,.2f} KES", style={'color': '#2ecc71'})
-        ], className='kpi-box'),
-    ], style={'display': 'flex', 'justifyContent': 'space-around', 'marginBottom': 30}),
+        ], style=styles['kpi-box']),
+    ], style={'display': 'flex', 'flexWrap': 'wrap', 'justifyContent': 'center', 'marginBottom': '30px'}),
     
     # First row of charts
     html.Div([
@@ -71,7 +90,7 @@ app.layout = html.Div([
                     names="Risk Level", 
                     title="Risk Level Distribution",
                     color_discrete_map={'High':'#e74c3c','Medium':'#f39c12','Low':'#2ecc71'}
-                )
+                ).update_layout(title_x=0.5)
             )
         ], style={'width': '48%', 'display': 'inline-block'}),
         
@@ -85,10 +104,13 @@ app.layout = html.Div([
                     title="Amount Distribution by Risk Level",
                     color="Risk Level",
                     color_discrete_map={'High':'#e74c3c','Medium':'#f39c12','Low':'#2ecc71'}
-                ).update_layout(yaxis_type="log")
+                ).update_layout(
+                    yaxis_type="log",
+                    title_x=0.5
+                )
             )
         ], style={'width': '48%', 'display': 'inline-block', 'float': 'right'}),
-    ]),
+    ], style={'marginBottom': '30px'}),
     
     # Second row of charts
     html.Div([
@@ -102,15 +124,16 @@ app.layout = html.Div([
                 size="Amount Owed (KES)",
                 hover_name="Client Name",
                 title="Risk Exposure Analysis",
-                color_continuous_scale='RdYlGn_r',  # Red-Yellow-Green (reversed)
+                color_continuous_scale='RdYlGn_r',
                 range_color=[0, 100]
             ).update_layout(
                 hovermode='closest',
                 xaxis_title="Days Overdue",
-                yaxis_title="Amount Owed (KES)"
+                yaxis_title="Amount Owed (KES)",
+                title_x=0.5
             )
         )
-    ]),
+    ], style={'marginBottom': '30px'}),
     
     # Time-based analysis
     html.Div([
@@ -125,13 +148,14 @@ app.layout = html.Div([
             ).update_layout(
                 bargap=0.1,
                 xaxis_title="Last Payment Date",
-                yaxis_title="Number of Clients"
+                yaxis_title="Number of Clients",
+                title_x=0.5
             )
         )
-    ]),
+    ], style={'marginBottom': '30px'}),
     
     # Data table with enhanced features
-    html.H3("Client Details", style={'marginTop': 30}),
+    html.H3("Client Details", style={'marginTop': '30px', 'textAlign': 'center'}),
     html.Div([
         dcc.Dropdown(
             id='risk-filter',
@@ -143,7 +167,7 @@ app.layout = html.Div([
             ],
             value='all',
             clearable=False,
-            style={'width': '300px', 'marginBottom': 10}
+            style={'width': '300px', 'margin': '0 auto 20px'}
         ),
         dash_table.DataTable(
             id='client-table',
@@ -160,12 +184,13 @@ app.layout = html.Div([
             filter_action="native",
             sort_action="native",
             sort_by=[{"column_id": "Risk Score", "direction": "desc"}],
-            style_table={'overflowX': 'auto'},
+            style_table={'overflowX': 'auto', 'margin': '0 auto', 'maxWidth': '1200px'},
             style_cell={
                 'textAlign': 'left',
                 'padding': '10px',
                 'whiteSpace': 'normal',
-                'height': 'auto'
+                'height': 'auto',
+                'border': '1px solid #eee'
             },
             style_header={
                 'backgroundColor': '#2c3e50',
@@ -181,10 +206,14 @@ app.layout = html.Div([
                 {
                     'if': {'filter_query': '{Risk Level} = "Medium"'},
                     'backgroundColor': '#fff8e1'
+                },
+                {
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
                 }
             ]
         )
-    ])
+    ], style={'marginBottom': '50px'})
 ])
 
 # Callback for table filtering
