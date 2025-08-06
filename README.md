@@ -82,11 +82,14 @@ Subscription plans for creatives and studios
 Integration services for organizations managing creative rights
 
 📬 Contact
-Team Name: Shacney Solutions
+Team Name: SAM&HASS DEBT-RECOVERY
 
-Representative: Samira Hassannoor Sheikh Ahmed
+Representative:
+               Samira Hassannoor Sheikh Ahmed
+               Hassan
 
-Email: creaturesofcomfort1999@gmail.com
+Email:
+       creaturesofcomfort1999@gmail.com
 
 👩‍💻 Happy Hacking!
 
