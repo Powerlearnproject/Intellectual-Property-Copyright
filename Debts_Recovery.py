@@ -1,11 +1,12 @@
- import pandas as pd
+import pandas as pd
 import dash
 from dash import dcc, html, dash_table, Input, Output
 import plotly.express as px
 from datetime import datetime
 
 # Load and prepare data
-df = pd.read_csv("C:/Users/hassa/Downloads/CodeHer/Intellectual-Property-Copyright/Debts_Recovery.csv")
+#df = pd.read_csv("C:/Users/hassa/Downloads/CodeHer/Intellectual-Property-Copyright/Debts_Recovery.csv")
+df = pd.read_csv("Debts_Recovery.csv")
 
 # Clean date fields and calculate additional metrics
 df["Due Date"] = pd.to_datetime(df["Due Date"], format='%m/%d/%Y')
@@ -200,4 +201,4 @@ def update_table(risk_level):
         return filtered_df.to_dict('records')
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+   app.run(debug=True)
