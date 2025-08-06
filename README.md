@@ -39,7 +39,7 @@ This platform is tailored to serve accelerators, creative funds (like HEVA), and
 📁 /utils      # Helper functions and config
 .env.example   # Sample environment variables
 README.md      # Project documentation
-####🧩 How to Clone and Run the Project
+🧩 How to Clone and Run the Project
 # Clone the repository
 git clone https://github.com/Powerlearnproject/Intellectual-Property-Copyright.git
 
@@ -55,7 +55,7 @@ cp .env.example .env
 
 # Run the development server
 npm run dev
-### 💻 Tech Stack
+💻 Tech Stack
 Frontend: React.js or Next.js
 
 Backend: Node.js + Express
@@ -68,7 +68,7 @@ UI/UX Design: Tailwind CSS, Figma
 
 AI Risk Engine (Future): Python / Scikit-learn
 
-####🌍 Target Users
+🌍 Target Users
 🎨 Creative entrepreneurs and artists
 
 💼 Accelerators and creative funding organizations (e.g. HEVA)
@@ -88,5 +88,5 @@ Representative: Samira Hassannoor Sheikh Ahmed
 
 Email: creaturesofcomfort1999@gmail.com
 
-###👩‍💻 Happy Hacking!
+👩‍💻 Happy Hacking!
 
